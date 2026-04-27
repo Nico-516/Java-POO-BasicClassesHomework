@@ -5,18 +5,19 @@ import java.util.List;
 
 public class Room {
     int _roomID;
-    int _capacity;
+    int _maxCapacity;
+    int _currentCapacity;
 
     List <Movie> _movies = new ArrayList<>();
 
     public Room(int roomID, int capacity) {
         this._roomID = roomID;
-        this._capacity = capacity;
+        this._maxCapacity = capacity;
     }
 
     public void roomInfo() {
         System.out.println("Room ID: " + this._roomID);
-        System.out.println("Capacity: " + this._capacity);
+        System.out.println("Capacity: " + this._maxCapacity);
     }
 
     public void addMovie(Movie movie) {
@@ -32,13 +33,17 @@ public class Room {
     }
 
     public double emptySeatsPercentage(Movie movie){
-        double emptySeatsPercentage = movie.getAllSoldTickets() / this._capacity;
+        double emptySeatsPercentage = (double) this._currentCapacity / this._maxCapacity;
         emptySeatsPercentage *= 100;
         return emptySeatsPercentage;
     }
 
     public void sellTicket(Movie movie) {
-
-        movie.sellTicket();
+        if(this._currentCapacity < this._maxCapacity) {
+            this._currentCapacity++;
+            movie.sellTicket();
+        } else {
+            System.out.println("Room is full");
+        }
     }
 }
